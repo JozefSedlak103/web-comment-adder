@@ -5,15 +5,12 @@
 function getSelectedText() {
     let selectedText = '';
     // preto je tu viacero moznosti, lebo je mozne ze niektore z toho nemusia fungovat na niektorych strankach
-    // window.getSelection
     if (window.getSelection) {
         selectedText = window.getSelection().toString();
     }
-    // document.getSelection
     else if (document.getSelection) {
         selectedText = document.getSelection().toString();
     }
-    // document.selection
     else if (document.selection) {
         selectedText =
             document.selection.createRange().text.toString();
@@ -45,21 +42,17 @@ function createTextField(fromTop) {
     textDiv.appendChild(cancelButton);
     textDiv.appendChild(continueButton);
     document.body.appendChild(textDiv);
-
-    //document.onselectionchange = function () {
-    //    textDiv.parentNode.removeChild(textDiv);
-    //}
 }
+//vytvori znacku obsahujucu neviditelny znak Byte order mark(ufeff)
+let markSelection = (function() {
+    let markerTextChar = "\ufeff";
 
-var markSelection = (function() {
-    var markerTextChar = "\ufeff";
-
-    var markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
-    var selectionEl;
+    let markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
+    let selectionEl;
 
     return function(win) {
-        var doc = win.document;
-        var sel, range;
+        let doc = win.document;
+        let sel, range;
         if (win.getSelection) {
             sel = win.getSelection();
             range = sel.getRangeAt(0).cloneRange();
@@ -93,8 +86,6 @@ var markSelection = (function() {
             selectionEl.style.right = "8%";
             selectionEl.style.top = top + "px";
             selectionEl.onclick = function() {createTextField(top)};
-
-            //markerEl.parentNode.removeChild(markerEl);
         }
     };
 })();
@@ -103,26 +94,8 @@ var markSelection = (function() {
 //pri zmene vybrateho textu vezme text a vytvori tlacidlo
 document.onselectionchange = () => {
     let text = getSelectedText();
-    //document.testform.selectedtext.value = text;
     if (text!=='') {
         markSelection(window);
     }
 };
-
-//interval na opakovane zistovanie ci je vybraty text (1000ms je vybratych len ako test, moze to byt rychlejsie aj pomalsie)
-/*
-window.setInterval(function () {
-    //alert("Test");
-    if (getSelectedText()!=='') {
-        let text = getSelectedText();
-        document.testform.selectedtext.value = text;
-        //document.onmouseup = cursorFromTop;
-        //alert("1");
-        markSelection(window)
-        getSelectedText();
-        clearInterval(this);
-    }
-},2500);
-
- */
 
