@@ -40,7 +40,7 @@ var markSelection = (function() {
             range.collapse(false);
 
             // Create the marker element containing a single invisible character by creating literal HTML and insert it
-            range.pasteHTML('<span id="' + markerId + '" style="position: relative;">' + markerTextCharEntity + '</span>');
+            range.pasteHTML('<span id="' + markerId + '" style="position: static; left: 20">' + markerTextCharEntity + '</span>');
             markerEl = doc.getElementById(markerId);
         } else if (win.getSelection) {
             sel = win.getSelection();
@@ -62,6 +62,8 @@ var markSelection = (function() {
                 selectionEl.style.backgroundColor = "white";
                 selectionEl.innerHTML = "+";
                 selectionEl.style.fontSize = "120%";
+                selectionEl.style.marginLeft = "20px";
+                selectionEl.style.right = "100px";
                 selectionEl.style.position = "absolute";
                 /*
                 selectionEl = doc.createElement("div");
@@ -85,7 +87,8 @@ var markSelection = (function() {
 
             // Move the button into place.
             // Substitute your jQuery stuff in here
-            selectionEl.style.left = left + "px";
+            //selectionEl.style.left = left + "px";
+            selectionEl.style.right = "20px";
             selectionEl.style.top = top + "px";
 
             markerEl.parentNode.removeChild(markerEl);
@@ -115,8 +118,17 @@ function getPosY(posy) {
     return posy;
 }
 */
-//interval na opakovane zistovanie ci je vybraty text (1000ms je vybratych len ako test, moze to byt rychlejsie aj pomalsie)
 
+document.onselectionchange = () => {
+    let text = getSelectedText();
+    document.testform.selectedtext.value = text;
+    if (text!=='') {
+        markSelection(window);
+    }
+};
+
+//interval na opakovane zistovanie ci je vybraty text (1000ms je vybratych len ako test, moze to byt rychlejsie aj pomalsie)
+/*
 window.setInterval(function () {
     //alert("Test");
     if (getSelectedText()!=='') {
@@ -129,4 +141,6 @@ window.setInterval(function () {
         clearInterval(this);
     }
 },2500);
+
+ */
 
