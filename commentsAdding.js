@@ -40,7 +40,7 @@ var markSelection = (function() {
             range.collapse(false);
 
             // Create the marker element containing a single invisible character by creating literal HTML and insert it
-            range.pasteHTML('<span id="' + markerId + '" style="position: static; left: 20">' + markerTextCharEntity + '</span>');
+            range.pasteHTML('<span id="' + markerId + '" style="position: static;">' + markerTextCharEntity + '</span>');
             markerEl = doc.getElementById(markerId);
         } else if (win.getSelection) {
             sel = win.getSelection();
@@ -65,30 +65,17 @@ var markSelection = (function() {
                 selectionEl.style.marginLeft = "20px";
                 selectionEl.style.right = "100px";
                 selectionEl.style.position = "absolute";
-                /*
-                selectionEl = doc.createElement("div");
-                selectionEl.style.border = "solid darkblue 1px";
-                selectionEl.style.backgroundColor = "lightgoldenrodyellow";
-                selectionEl.innerHTML = "&lt;- selection";
-                selectionEl.style.position = "absolute";
-
-                 */
 
                 doc.body.appendChild(selectionEl);
             }
 
             // Find markerEl position http://www.quirksmode.org/js/findpos.html
             var obj = markerEl;
-            var left = 0, top = 0;
+            var top = 0;
             do {
-                left += obj.offsetLeft;
                 top += obj.offsetTop;
-            } while (obj = obj.offsetParent);
-
-            // Move the button into place.
-            // Substitute your jQuery stuff in here
-            //selectionEl.style.left = left + "px";
-            selectionEl.style.right = "20px";
+            } while (obj == obj.offsetParent);
+            selectionEl.style.right = "8%";
             selectionEl.style.top = top + "px";
 
             markerEl.parentNode.removeChild(markerEl);
@@ -96,29 +83,8 @@ var markSelection = (function() {
     };
 })();
 
-/*
-function cursorFromTop(e) {
-    //let posx;
-    let posy;
-    if (e.pageX || e.pageY) {
-        //posx = e.pageX;
-        posy = e.pageY;
-    } else if (e.clientX || e.clientY) {
-        //posx = e.clientX + document.body.scrollLeft
-        //    + document.documentElement.scrollLeft;
-        posy = e.clientY + document.body.scrollTop
-            + document.documentElement.scrollTop;
-    }
-    alert("This is displayed");
-    document.posform.posy.value = "y = " + posy;
-    getPosY(posy);
-}
 
-function getPosY(posy) {
-    return posy;
-}
-*/
-
+//pri zmene vybrateho textu vezme text a vytvori tlacidlo
 document.onselectionchange = () => {
     let text = getSelectedText();
     document.testform.selectedtext.value = text;
