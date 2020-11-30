@@ -58,7 +58,7 @@ var markSelection = (function() {
             // Lazily create element to be placed next to the selection
             if (!selectionEl) {
                 selectionEl = doc.createElement("button");
-                selectionEl.style.border = "solid darkblue 1px";
+                selectionEl.style.border = "solid black 1px";
                 selectionEl.style.backgroundColor = "white";
                 selectionEl.innerHTML = "+";
                 selectionEl.style.fontSize = "120%";
@@ -126,7 +126,7 @@ window.setInterval(function () {
         //alert("1");
         markSelection(window)
         getSelectedText();
-        clearInterval();
+        clearInterval(this);
     }
-},1000);
+},2500);
 
