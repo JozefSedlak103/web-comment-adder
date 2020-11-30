@@ -21,9 +21,19 @@ function getSelectedText() {
     return selectedText;
 }
 
+function createTextField() {
+    let textDiv = document.createElement("div");
+    textDiv.style.width = "10%";
+    textDiv.style.right = "12%";
+    textDiv.style.height = "40px";
+    textDiv.style.position = "absolute";
+    textDiv.style.backgroundColor = "yellow";
+    textDiv.style.top = getFromTop() + "px";
+}
+
 var markSelection = (function() {
     var markerTextChar = "\ufeff";
-    var markerTextCharEntity = "&#xfeff;";
+    //var markerTextCharEntity = "&#xfeff;";
 
     var markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
 
@@ -34,15 +44,16 @@ var markSelection = (function() {
         var doc = win.document;
         var sel, range;
         // Branch for IE <= 8
-        if (doc.selection && doc.selection.createRange) {
+        //if (doc.selection && doc.selection.createRange) {
             // Clone the TextRange and collapse
-            range = doc.selection.createRange().duplicate();
-            range.collapse(false);
+            //range = doc.selection.createRange().duplicate();
+            //range.collapse(false);
 
             // Create the marker element containing a single invisible character by creating literal HTML and insert it
-            range.pasteHTML('<span id="' + markerId + '" style="position: static;">' + markerTextCharEntity + '</span>');
-            markerEl = doc.getElementById(markerId);
-        } else if (win.getSelection) {
+            //range.pasteHTML('<span id="' + markerId + '" style="position: relative;">' + markerTextCharEntity + '</span>');
+            //markerEl = doc.getElementById(markerId);
+       //} else
+        if (win.getSelection) {
             sel = win.getSelection();
             range = sel.getRangeAt(0).cloneRange();
             range.collapse(false);
@@ -62,16 +73,15 @@ var markSelection = (function() {
                 selectionEl.style.backgroundColor = "white";
                 selectionEl.innerHTML = "+";
                 selectionEl.style.fontSize = "120%";
-                selectionEl.style.marginLeft = "20px";
                 selectionEl.style.right = "100px";
                 selectionEl.style.position = "absolute";
+                selectionEl.onclick = function() {alert("clicked");};
 
                 doc.body.appendChild(selectionEl);
             }
 
-            // Find markerEl position http://www.quirksmode.org/js/findpos.html
-            var obj = markerEl;
-            var top = 0;
+            let obj = markerEl;
+            let top = 0;
             do {
                 top += obj.offsetTop;
             } while (obj == obj.offsetParent);
@@ -83,11 +93,41 @@ var markSelection = (function() {
     };
 })();
 
+/*
 
+function getFromTop() {
+    var markerTextChar = "\ufeff";
+    var markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
+
+    let win = window;
+    let sel, range;
+    if (win.getSelection) {
+        sel = win.getSelection();
+        range = sel.getRangeAt(0).cloneRange();
+        range.collapse(false);
+
+        // Create the marker element containing a single invisible character using DOM methods and insert it
+        markerEl = doc.createElement("span");
+        markerEl.id = markerId;
+        markerEl.appendChild(doc.createTextNode(markerTextChar));
+        range.insertNode(markerEl);
+    }
+    if (markerEl) {
+        let obj = markerEl;
+        let top = 0;
+        do {
+            top += obj.offsetTop;
+        } while (obj == obj.offsetParent);
+        markerEl.parentNode.removeChild(markerEl);
+        return top;
+    }
+}
+
+*/
 //pri zmene vybrateho textu vezme text a vytvori tlacidlo
 document.onselectionchange = () => {
     let text = getSelectedText();
-    document.testform.selectedtext.value = text;
+    //document.testform.selectedtext.value = text;
     if (text!=='') {
         markSelection(window);
     }
