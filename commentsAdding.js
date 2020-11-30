@@ -1,3 +1,6 @@
+
+
+
 //ziska vybraty text
 function getSelectedText() {
     let selectedText = '';
@@ -21,6 +24,7 @@ function getSelectedText() {
 function createTextField(fromTop) {
     let textDiv = document.createElement("div");
     let cancelButton = document.createElement("button");
+    let continueButton = document.createElement("button");
     let inputTextField = document.createElement("INPUT");
     inputTextField.setAttribute("type", "text");
     textDiv.style.width = "10%";
@@ -30,16 +34,16 @@ function createTextField(fromTop) {
     textDiv.style.position = "absolute";
     textDiv.style.backgroundColor = "yellow";
     textDiv.style.top = fromTop + "px";
-    cancelButton.style.left = "30px";
-    cancelButton.style.top = "50px";
+    continueButton.innerHTML = "Pokračuj";
     cancelButton.innerHTML = "Zruš";
     cancelButton.onclick = function() {
         textDiv.removeChild(cancelButton);
         textDiv.removeChild(inputTextField);
         textDiv.parentElement.removeChild(textDiv);
-    }
+    };
     textDiv.appendChild(inputTextField);
     textDiv.appendChild(cancelButton);
+    textDiv.appendChild(continueButton);
     document.body.appendChild(textDiv);
 
     //document.onselectionchange = function () {
@@ -49,32 +53,18 @@ function createTextField(fromTop) {
 
 var markSelection = (function() {
     var markerTextChar = "\ufeff";
-    //var markerTextCharEntity = "&#xfeff;";
 
     var markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
-
     var selectionEl;
 
     return function(win) {
-        win = win || window;
         var doc = win.document;
         var sel, range;
-        // Branch for IE <= 8
-        //if (doc.selection && doc.selection.createRange) {
-            // Clone the TextRange and collapse
-            //range = doc.selection.createRange().duplicate();
-            //range.collapse(false);
-
-            // Create the marker element containing a single invisible character by creating literal HTML and insert it
-            //range.pasteHTML('<span id="' + markerId + '" style="position: relative;">' + markerTextCharEntity + '</span>');
-            //markerEl = doc.getElementById(markerId);
-       //} else
         if (win.getSelection) {
             sel = win.getSelection();
             range = sel.getRangeAt(0).cloneRange();
             range.collapse(false);
 
-            // Create the marker element containing a single invisible character using DOM methods and insert it
             markerEl = doc.createElement("span");
             markerEl.id = markerId;
             markerEl.appendChild( doc.createTextNode(markerTextChar) );
@@ -82,17 +72,16 @@ var markSelection = (function() {
         }
 
         if (markerEl) {
-            // Lazily create element to be placed next to the selection
             if (!selectionEl) {
                 selectionEl = doc.createElement("button");
                 selectionEl.style.border = "solid black 1px";
+                selectionEl.style.borderRadius = "4px";
+                selectionEl.style.justifyContent = "center";
+                selectionEl.style.alignContent = "center";
                 selectionEl.style.backgroundColor = "white";
                 selectionEl.innerHTML = "+";
                 selectionEl.style.fontSize = "120%";
-                selectionEl.style.right = "100px";
                 selectionEl.style.position = "absolute";
-                selectionEl.onclick = function() {createTextField(top)};
-
                 doc.body.appendChild(selectionEl);
             }
 
@@ -103,8 +92,9 @@ var markSelection = (function() {
             } while (obj === obj.offsetParent);
             selectionEl.style.right = "8%";
             selectionEl.style.top = top + "px";
+            selectionEl.onclick = function() {createTextField(top)};
 
-            markerEl.parentNode.removeChild(markerEl);
+            //markerEl.parentNode.removeChild(markerEl);
         }
     };
 })();
