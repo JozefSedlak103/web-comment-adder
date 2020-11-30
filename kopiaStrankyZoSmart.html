@@ -1,0 +1,502 @@
+
+<!doctype html>
+<html lang="sk">
+<head>
+    <title>Mastering Android CLI Tools</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="mirek (miroslav.binas@tuke.sk)">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <!-- Highlight JS -->
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+          crossorigin="anonymous">
+
+    <!-- Course CSS -->
+    <link rel="stylesheet"
+          href="/smart/assets/css/theme.2019.css">
+</head>
+
+
+<body data-spy="scroll" data-target="#sidenav" data-offset="50">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+
+<script src="commentsAdding.js"></script>
+
+
+
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/smart/">SMART</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/smart/pages/resources.html">Resources</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="lectures" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lectures</a>
+                <div class="dropdown-menu" aria-labelledby="lectures">
+                    <a class="dropdown-item" href="/smart/2020/lecture.01.html">01. Introduction to Smart App Development</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.02.html">02. Components and State</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.04.html">04. App Features</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.05.html">05. Toasts and Alerts</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.06.html">06. Component Life Cycle</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.07.html">07. i18n and l10n</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.08.html">09. Component Composition</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.09.html">10. Redux</a>
+                    <a class="dropdown-item" href="/smart/2020/lecture.10.html">11. Data Persistence</a>
+
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="labs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Labs</a>
+                <div class="dropdown-menu" aria-labelledby="labs">
+                    <a class="dropdown-item" href="/smart/2020/labs.01.html">01. Introduction</a>
+                    <a class="dropdown-item" href="/smart/2020/labs.02.html">02. Mastering Android CLI Tools</a>
+                    <a class="dropdown-item" href="/smart/2020/labs.04.html">04. The Dialer</a>
+                    <a class="dropdown-item" href="/smart/2020/labs.06.html">06. Working with Sensors</a>
+
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="problemsets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Problemsets</a>
+                <div class="dropdown-menu" aria-labelledby="problemsets">
+                    <a class="dropdown-item" href="/smart/2020/problemset.00.the.environment.html">0. The Environment</a>
+                    <a class="dropdown-item" href="/smart/2020/problemset.01.the.project.html">1. The Project</a>
+
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="outlines" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Archive</a>
+                <div class="dropdown-menu" aria-labelledby="outlines">
+                    <a class="dropdown-item" href="/smart/2020/outline.html">Archive 2020</a>
+                    <a class="dropdown-item" href="/smart/2019/outline.html">Archive 2019</a>
+                    <a class="dropdown-item" href="/smart/2018/outline.html">Archive 2018</a>
+                    <a class="dropdown-item" href="/smart/2017/outline.html">Archive 2017</a>
+
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+
+<main role="main">
+    <div id="wrap">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3 title">Mastering Android CLI Tools</h1>
+                <p>virtuálne zariadenie (emulátor), <code>adb</code>, udalosti na zariadení</p>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <h2 id="about">About</h2>
+            <p>Vývoj vašej aplikácie budete veľmi často skúšať nie na reálnom zariadení, ale na emulátore <em>Android</em> zariadenia. Na tomto cvičení si ukážeme, ako takéto virtuálne zariadenie vytvoriť a ako s ním komunikovať.</p>
+            <h2 id="objectives">Objectives</h2>
+            <ul>
+                <li>Naučiť sa vytvoriť a spravovať virtuálne zariadenia.</li>
+                <li>Naučiť sa pracovať s nástrojom adb.</li>
+                <li>Naučiť sa vyvolávať rozličné udalosti na zariadení.</li>
+                <li>Spoznať základné stavebné kompnenty <em>Android</em> aplikácií.</li>
+            </ul>
+            <h2 id="content">Postup</h2>
+            <h3 class="step" id="virtual-device-management">Virtual Device Management</h3>
+            <p>Každú aplikáciu, ktorú vytvoríte, budete potrebovať aj otestovať, či sa naozaj správa tak, ako ste plánovali. Pre testovanie máte v princípe dve možnosti: buď aplikáciu nasadíte priamo na fyzické zariadenie alebo použijete softvérový emulátor, ktorý sa bude správať ako fyzické zariadenie. V tomto kroku sa pozrieme na nástroje a možnosti správy pre tvorbu virtuálnych zariadení pomocou emulátora.</p>
+            <h4 class="task" id="úloha">Úloha</h4>
+            <p>Spustite príkazový riadok a uistite sa, že máte dostupné príkazy ako <code>adb</code>, <code>avdmanager</code>, <code>emulator</code>.</p>
+            <section class="alert-heading alert alert-primary theme-alert-info">
+                <h4 class="alert-heading"><span class="fas fa-info-circle" aria-hidden="true"></span> Poznámka</h4>
+                <p>Ak ich dostupné nemáte a aj napriek tomu máte nainštalované <em>Android SDK</em>, nemáte správne nastavenú premennú <code>PATH</code> vo vašom operačnom systéme.</p>
+            </section>
+            <h4 class="task" id="úloha-1">Úloha</h4>
+            <p>Pomocou príkazu <code>avdmanager</code> si zobrazte zoznam dostupných zariadení (device), virtuálnych zariadení (AVD) a platforiem (target).</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <p>Zobraziť dostupné profily zariadení je možné príkazom:</p>
+                <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ex">avdmanager</span> list device</span></code></pre></div>
+                <p>Zobraziť zoznam vytvorených Android virtuálnych zariadení je možné príkazom:</p>
+                <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">avdmanager</span> list avd</span></code></pre></div>
+                <p>Zobraziť zoznam dostupných platforiem je možné príkazom:</p>
+                <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">avdmanager</span> list target</span></code></pre></div>
+                <p>Ak príkaz <code>avdmanager list</code> spustíte bez parametra, zobrazí sa všetko dokopy.</p>
+            </section>
+            <h4 class="task" id="úloha-2">Úloha</h4>
+            <p>Vytvorte nové virtuálne zariadenie, ktoré bude reprezentovať telefón <em>Nexus 5</em> s nainštalovaným <em>OS Android 6 Marshmallow</em> (API Level 23) a <em>Google Services</em>.</p>
+            <p><em>AVD Manager</em> prichádza s niekoľkými predpripravenými profilmi zariadení. Máte teda možnosť vytvoriť si zariadenie podľa vlastných požiadaviek alebo si môžete vytvoriť nové zariadenie na základe niektorého z predpripravených profilov. V našom prípade nás bude zaujímať telefón <em>Nexus 5</em>.</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <p>Pomocou príkazu <code>avdmanager list device</code> najprv zistíme <code>id</code> profilu zariadenia <em>Nexus 5</em>:</p>
+                <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">avdmanager</span> list device</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="ex">...</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="ex">---------</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="ex">id</span>: 8 or <span class="st">&quot;Nexus 5&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    <span class="ex">Name</span>: Nexus 5</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    <span class="ex">OEM</span> : Google</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="ex">---------</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="ex">...</span></span></code></pre></div>
+                <p>Následne pomocou príkazu <code>avdmanager</code> zariadenie vytvoríme príkazom <code>create avd</code>:</p>
+                <div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">avdmanager</span> create avd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ex">Error</span>: The parameter --name must be defined for action <span class="st">&#39;create avd&#39;</span></span></code></pre></div>
+                <p>Výsledok skončí s chybou, ktorá hovorí, že sa očakáva povinný parameter <code>--name</code>. Tak ho pridáme a novovytvárané zariadenie pomenujeme:</p>
+                <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ex">avdmanager</span> create avd --name nexus</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="ex">Error</span>: Package path (-k) <span class="ex">not</span> specified. Valid system image paths are:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="ex">system-images</span><span class="kw">;</span><span class="ex">android-23</span><span class="kw">;</span><span class="ex">google_apis</span><span class="kw">;</span><span class="ex">x86_64</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="ex">null</span></span></code></pre></div>
+                <p>Opať výsledok skončil s chybou, takže pomocou prepínača <code>-k</code> doplníme informáciu o obraze systému, ktorý má byť použitý:</p>
+                <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ex">avdmanager</span> create avd --name nexus -k <span class="st">&#39;system-images;android-23;google_apis;x86_64&#39;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="ex">Auto-selecting</span> single ABI x86_64</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="ex">Do</span> you wish to create a custom hardware profile? [no]</span></code></pre></div>
+                <p>Zrušíme tvorbu AVD a rozšírime príkaz o špecifikáciu <em>Nexus 5</em> zariadenia pomocou argumentu <code>--device</code>:</p>
+                <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ex">avdmanager</span> create avd --name nexus --device 8 -k <span class="st">&#39;system-images;android-23;google_apis;x86_64&#39;</span></span></code></pre></div>
+                <p>Po spustení dôjde k vytvoreniu AVD na základe profilu zariadenia <em>Nexus 5</em>.</p>
+            </section>
+            <h4 class="task" id="úloha-3">Úloha</h4>
+            <p>Pomocou príkazu <code>emulator</code> spustite vami vytvorené virtuálne zariadenie.</p>
+            <p>Ak ste postupovali správne, zobrazí sa vám okno so štartujúcim systémom <em>Android 6 Marshmallow</em> vo virtuálnom zariadení <em>Nexus 5</em>.</p>
+            <figure>
+                <img src="../2018/images/nexus.5.png" alt="" /><figcaption>Zariadenie <em>Nexus 5</em> po prvom spustení.</figcaption>
+            </figure>
+            <p>Príkaz <code>emulator</code> sa používa v tvare:</p>
+            <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd AVD_NAME</span></code></pre></div>
+            <p>alebo zjednodušene</p>
+            <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ex">emulator</span> @AVD_NAME</span></code></pre></div>
+            <p>kde <code>AVD_NAME</code> je názov vášho virtuálneho zariadenia. Ak by ste teda chceli spustiť práve vytvorené virtuálne zariadenie, v príkazovom riadku by ste napísali:</p>
+            <div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd Nexus_5_API_23</span></code></pre></div>
+            <p>Ak chcete zobraziť zoznam všetkých dostupných virtuálnych zariadení, napíšte:</p>
+            <div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="ex">emulator</span> -list-avds</span></code></pre></div>
+            <p>Samotný obraz virtuálneho zariadenia je uložený v priečinku <code>$HOME/.android/avd/</code>.</p>
+            <h4 class="task" id="úloha-4">Úloha</h4>
+            <p>Upravte nastavenia práve vytvoreného zariadenia tak, aby ste v ňom mohli používať aj kameru.</p>
+            <p>Pokiaľ máte na vašom počítači naozajstnú kameru, je možné ju namapovať na kameru virtuálneho zariadenia. Ak ju nemáte, je možné správanie kamery emulovať. Urobiť tak môžete zmenou nastavení virtuálneho zariadenia.</p>
+            <p>Správnosť nastavení overte v aplikácii <em>Camera</em>.</p>
+            <p>Najprv je treba zistiť, ako je kamera označená:</p>
+            <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>$ <span class="ex">emulator</span> -webcam-list</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="ex">List</span> of web cameras connected to the computer:</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a> <span class="ex">Camera</span> <span class="st">&#39;webcam0&#39;</span> is connected to device <span class="st">&#39;/dev/video0&#39;</span> on channel 0 using pixel format <span class="st">&#39;YUYV&#39;</span></span></code></pre></div>
+            <p>Následne je možné toto zariadenie ako prednú alebo zadnú kameru:</p>
+            <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>$ <span class="ex">emulator</span> @nexus -camera-front webcam0</span></code></pre></div>
+            <h3 class="step" id="android-device-management-with-android-studio">Android Device Management with Android Studio</h3>
+            <p>AVD je možné spravovať aj v prostredí <em>Android Studia</em>. V tomto kroku sa pozrieme na to, ako je možné vytvoriť AVD pomocou nástrojov, ktoré <em>Android Studio</em> poskytuje.</p>
+            <h4 class="task" id="úloha-5">Úloha</h4>
+            <p>Spustite <em>Android Studio</em> na svojom počítači.</p>
+            <h4 class="task" id="úloha-6">Úloha</h4>
+            <p>Z prostredia <em>Android Studia</em> spustite nástroj <em>AVD Manager</em>.</p>
+            <p><em>AVD Manager</em> spustíte kliknutím na príslušnú ikonu v paneli nástrojov alebo z menu <em>Tools</em> vyberte položku <em>AVD Manager</em>.</p>
+            <figure>
+                <img src="../2017/images/android.studio-avd.manager.selection.png" alt="" /><figcaption>Ikona nástroja <em>AVD Manager</em> na paneli nástrojov.</figcaption>
+            </figure>
+            <p>Po jeho spustení sa vám zobrazí zoznam vašich virtuálnych zariadení. V prípade, že žiadne zariadenie ešte nemáte vytvorené, bude tento zoznam prázdny.</p>
+            <figure>
+                <img src="../2018/images/avd.manager-empty.png" alt="" /><figcaption>Prázdne okno správcu virtuálnych zariadení.</figcaption>
+            </figure>
+            <h4 class="task" id="úloha-7">Úloha</h4>
+            <p>Vytvorte nové virtuálne zariadenie, ktoré bude reprezentovať telefón <em>Nexus 5</em> s nainštalovaným _OS Android 6 Marshmallow (API Level 23) a <em>Google Services</em>.</p>
+            <p><em>AVD Manager</em> prichádza s niekoľkými predpripravenými profilmi zariadení. Máte teda možnosť vytvoriť si zariadenie podľa vlastných požiadaviek alebo si môžete vytvoriť nové zariadenie na základe niektorého z predpripravených profilov. V našom prípade nás bude zaujímať <em>telefón Nexus 5</em>.</p>
+            <figure>
+                <img src="../2018/images/avd.manager-verify.configuration.png" alt="" /><figcaption>Overenie konfigurácie nového virtuálneho zariadenia pred jeho vytvorením.</figcaption>
+            </figure>
+            <p>Po vytvorení zariadenia sa toto zobrazí v zozname správcu virtuálnych zariadení.</p>
+            <figure>
+                <img src="../2018/images/avd.manager.png" alt="" /><figcaption>Správca virtuálnych zariadení.</figcaption>
+            </figure>
+            <h4 class="task" id="úloha-8">Úloha</h4>
+            <p>Spustite vami vytvorené virtuálne zariadenie.</p>
+            <p>Ak ste postupovali správne, zobrazí sa vám okno so štartujúcim systémom <em>Android 6 Marshmallow</em> vo virtuálnom zariadení <em>Nexus 5</em>.</p>
+            <figure>
+                <img src="../2018/images/nexus.5.png" alt="" /><figcaption>Zariadenie <em>Nexus 5</em> po prvom spustení.</figcaption>
+            </figure>
+            <section class="alert-heading alert alert-primary theme-alert-info">
+                <h4 class="alert-heading"><span class="fas fa-info-circle" aria-hidden="true"></span> Poznámka</h4>
+                <p>V prípade, že používate nástroje <em>Android SDK</em> z príkazového riadku, môžete použiť príkaz <command>emulator</command> v tvare:</p>
+                <div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd AVD_NAME</span></code></pre></div>
+                <p>alebo zjednodušene</p>
+                <div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ex">emulator</span> @AVD_NAME</span></code></pre></div>
+                <p>kde <code>AVD_NAME</code> je názov vášho virtuálneho zariadenia. Ak by ste teda chceli spustiť práve vytvorené virtuálne zariadenie, v príkazovom riadku by ste napísali:</p>
+                <div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ex">emulator</span> -avd Nexus_5_API_23</span></code></pre></div>
+                <p>Ak chcete zobraziť zoznam všetkých dostupných virtuálnych zariadení, napíšte:</p>
+                <div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="ex">emulator</span> -list-avds</span></code></pre></div>
+                <p>Samotný obraz virtuálneho zariadenia je uložený v priečinku <code>$HOME/.android/avd</code>.</p>
+            </section>
+            <h4 class="task" id="úloha-9">Úloha</h4>
+            <p>Upravte nastavenia práve vytvoreného zariadenia tak, aby ste v ňom mohli používať aj kameru.</p>
+            <p>Pokiaľ máte na vašom počítači naozajstnú kameru, je možné ju namapovať na kameru virtuálneho zariadenia. Ak ju nemáte, je možné správanie kamery emulovať. Urobiť tak môžete zmenou nastavení virtuálneho zariadenia.</p>
+            <p>Správnosť nastavení overte v aplikácii <em>Camera</em>.</p>
+            <h4 class="task" id="úloha-10">Úloha</h4>
+            <p>Zoznámte sa s klávesovými skratkami pre ovládanie emulátora.</p>
+            <p>Zoznam skratiek pre ovládanie emulátora nájdete v položke <em>Help</em> po kliknutí na tlačidlo <em>More</em> na ovládacom paneli emulátora.</p>
+            <figure>
+                <img src="../2017/images/button.more.png" alt="" /><figcaption>Zobrazenie rozšírených nastavení po kliknutí na tlačidlo <em>More</em>.</figcaption>
+            </figure>
+            <h3 class="step" id="adb-basics">adb Basics</h3>
+            <p><em>Android Debug Bridge</em> (adb) je univerzálny nástroj príkazového riadku, ktorý umožňuje komunikovať so spustenou inštanciou emulátora alebo s pripojeným Android zariadením. V rámci tohto kroku si osvojíme základy používania tohto nástroja.</p>
+            <h4 class="task" id="úloha-11">Úloha</h4>
+            <p>Spustite nástroj <code class="sourceCode bash"><span class="ex">adb</span></code> z príkazového riadku a zobrazte jeho pomocníka (help).</p>
+            <p>Nástroj spustíte zadaním nasledovného príkazu:</p>
+            <div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="ex">adb</span> --help</span></code></pre></div>
+            <section class="alert-heading alert alert-danger theme-alert-danger">
+                <h4 class="alert-heading"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> Upozornenie</h4>
+                <p>V prípade, že k spusteniu nedôjde, buď nemáte nainštalovaný balík <em>android-sdk</em> alebo sa cesta k nástroju nenachádza v systémovej premennej <code>PATH</code>.</p>
+            </section>
+            <h4 class="task" id="úloha-12">Úloha</h4>
+            <p>Zobrazte zoznam práve pripojených zariadení.</p>
+            <p>Ak máte spustený emulátor alebo pripojené zariadenie cez USB kábel, zobrazí sa vám v zozname práve pripojených zariadení, ktorý môže vyzerať napr. takto:</p>
+            <pre><code>List of devices attached
+emulator-5554   device
+HT0A3PL04055    device</code></pre>
+            <section class="alert-heading alert alert-primary theme-alert-info">
+                <h4 class="alert-heading"><span class="fas fa-info-circle" aria-hidden="true"></span> Poznámka</h4>
+                <p>Ak pripájate zariadenie cez USB kábel, musíte v ňom mať zapnutú podporu pre ladenie cez USB. Na zariadeniach s <em>OS Android 4.2</em> a vyššie je predvolene vypnuté. Ak ho chcete zapnúť, choďte do menu <em>Settings</em> &gt; <em>About phone</em> a sedemkrát kliknite na tlačidlo <em>Build number</em>. Po návrate na predchádzajúcu obrazovku budete na jej spodku vidieť položku <em>Developer options</em>.</p>
+            </section>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <p>Riešenie úlohy</p>
+                <div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ex">adb</span> devices</span></code></pre></div>
+            </section>
+            <h4 class="task" id="úloha-13">Úloha</h4>
+            <p>Pomocou nástroja <code class="sourceCode bash"><span class="ex">adb</span></code> reštartnite zariadenie.</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="ex">adb</span> -s emulator-5554 reboot</span></code></pre></div>
+            </section>
+            <h4 class="task" id="úloha-14">Úloha</h4>
+            <p>Preneste obrázok loga <em>Android Marshmallow</em> do virtuálneho zariadenia do priečinku <code>/sdcard/DCIM/Camera/</code>.</p>
+            <p>O úspešnosti operácie sa môžete následne presvedčiť v aplikácii <em>Gallery</em>, kde by sa mal obrázok objaviť.</p>
+            <figure>
+                <img src="../images/logo-marshmallow.png" alt="" /><figcaption>Android Marshmallow logo</figcaption>
+            </figure>
+            <section class="alert-heading alert alert-primary theme-alert-info">
+                <h4 class="alert-heading"><span class="fas fa-info-circle" aria-hidden="true"></span> Poznámka</h4>
+                <p>Pre splnenie tejto úlohy vám môže pomôcť aj možnosť spustiť príkazový riadok na danom zariadení:</p>
+                <div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="ex">adb</span> shell</span></code></pre></div>
+            </section>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="ex">adb</span> -s emulator-5554 push logo-marshmallow.png  /sdcard/DCIM/Camera/</span></code></pre></div>
+            </section>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <p>Je dosť pravdepodobné, že pred zobrazením obrázku v galérii treba zariadenie reštartovať.</p>
+            </section>
+            <h4 class="task" id="úloha-15">Úloha</h4>
+            <p>Prekopírujte z virtuálneho zariadenia všetky fotky, ktoré ste vytvorili aplikáciou <em>Camera</em> do aktuálneho priečinku na lokálnom počítači.</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="ex">adb</span> -s emulator-5554 pull  /sdcard/DCIM/Camera .</span></code></pre></div>
+            </section>
+            <h4 class="task" id="úloha-16">Úloha</h4>
+            <p>Pomocou príkazu <code class="sourceCode bash"><span class="ex">screencap</span></code> spusteného vo virtuálnom zariadení vytvorte snímku obrazovku a stiahnite si ju do počítača.</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="ex">adb</span> -s emulator-5554 shell screencap -p /sdcard/DCIM/screenshot.png</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="ex">adb</span> -s emulator-5554 pull /sdcard/DCIM/screenshot.png .</span></code></pre></div>
+            </section>
+            <h3 class="step" id="emulator-console">Emulator Console</h3>
+            <p>Každá spustená inštancia emulátora poskytuje konzolu, pomocou ktorej je možné overiť alebo riadiť prostredie emulovaného zariadenia. Napr. je pomocou nej možné spravovať presmerovanie portu (port redirection), sieťové pripojenie a udalosti telefónu (prichádzajúci hovor, SMS správa), zatiaľ čo vaša aplikácia je spustená v emulátore. Ak chcete túto konzolu používať, musíte sa k nej pripojiť pomocou telnet-u.</p>
+            <h4 class="task" id="úloha-17">Úloha</h4>
+            <p>Pripojte sa na konzolu emulátora práve spusteného virtuálneho zariadenia.</p>
+            <p>Pre pripojenie sa ku konzole emulátora potrebujete poznať port, na ktorom daný emulátor počúva. Tento port je možné vidieť v názve okna príslušného terminálu alebo po spustení príkazu <code class="sourceCode bash"><span class="ex">adb</span></code> s prehľadom aktuálne pripojených, resp. spustených zariadení:</p>
+            <pre><code>adb devices
+List of devices attached 
+emulator-5554   device
+HT0A3PL04055    device
+emulator-5556   device</code></pre>
+            <p>Porty sa v tomto prípade nachádzajú za znakom ‘-’ za slovom ‘emulator’.</p>
+            <p>Ak sa teda chcem pripojiť na konzolu k emulátoru označenému ako <em>emulator-5554</em>, napíšem príkaz:</p>
+            <div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="ex">telnet</span> localhost 5554</span></code></pre></div>
+            <p>Po spustení konzoly si môžete zobraziť zoznam všetkých dostupných príkazov pomocou príkazu <code class="sourceCode bash"><span class="bu">help</span></code>. Pre zobrazenie pomocníka pre konkrétny príkaz, napíšte <code class="sourceCode bash"><span class="bu">help</span> príkaz</code>.</p>
+            <p>Spojenie môžete ukončiť príkazom <code class="sourceCode bash"><span class="ex">quit</span></code>.</p>
+            <figure>
+                <img src="../2018/images/emulator-title.png" alt="" /><figcaption>Ćíslo portu pre prístup do konzoly emulátora.</figcaption>
+            </figure>
+            <section class="alert-heading alert alert-danger theme-alert-danger">
+                <h4 class="alert-heading"><span class="fas fa-exclamation-circle" aria-hidden="true"></span> Upozornenie</h4>
+                <p>Ak pre pripojenie ku konzole emulátora používate v operačnom systéme <em>OS Windows</em> aplikáciu <em>Putty</em>, odhlási vás po stlačení klávesy <em>Enter</em>. Aby ste sa tomuto problému vyhli, v nastaveniach telnet-ového pripojenia si zmeňte <em>aktívny</em> (active) režim na <em>pasívny</em> (passive).</p>
+            </section>
+            <h4 class="task" id="úloha-18">Úloha</h4>
+            <p>Autentifikujte svoje sedenie v konzole pomocou autentifikačného tokenu.</p>
+            <p>Zoznam dostupných príkazov je pomerne krátky. Okrem toho sa vám po samotnom spustení zobrazí výzva pre autentifikovanie vašej aktuálnej relácie:</p>
+            <pre><code>$ telnet localhost 5554
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is &#39;^]&#39;.
+Android Console: Authentication required
+Android Console: type &#39;auth &lt;auth_token&gt;&#39; to authenticate
+Android Console: you can find your &lt;auth_token&gt; in
+&#39;/path/to/.emulator_console_auth_token&#39;
+OK</code></pre>
+            <p>Autentifikovať reláciu môžete pomocou príkazu <code>auth</code>. Po úspešnej autentifikácii budete mať k dispozícii výrazne viac príkazov pre prácu.</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <p>Najprv treba zistiť token napr. pomocou príkazu:</p>
+                <div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="fu">cat</span> /path/to/.emulator_console_auth_token</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="ex">HpO2HLhZzh8rf4k1</span></span></code></pre></div>
+                <p>Následne je potrebné tento token zadať pomocou príkazu auth priamo po prihlásení sa do konzoly:</p>
+                <pre><code>$ telnet localhost 5554
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is &#39;^]&#39;.
+Android Console: Authentication required
+Android Console: type &#39;auth &lt;auth_token&gt;&#39; to authenticate
+Android Console: you can find your &lt;auth_token&gt; in
+&#39;/path/to/.emulator_console_auth_token&#39;
+OK
+auth HpO2HLhZzh8rf4k1
+Android Console: type &#39;help&#39; for a list of commands
+OK</code></pre>
+            </section>
+            <h4 class="task" id="úloha-19">Úloha</h4>
+            <p>Pošlite si SMS správu z čísla <em>112</em> s textom <em>“We need your help.”</em>.</p>
+            <p>Ak ste postupovali správne, prijatú SMS správu nájdete v zozname správ a o prijatí správy vás bude informovať aj notifikačná správa.</p>
+            <figure>
+                <img src="../2017/images/emulator-sms.received.png" alt="" /><figcaption>Prijatie SMS správy.</figcaption>
+            </figure>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="ex">sms</span> send 112 We need your help!</span></code></pre></div>
+            </section>
+            <h4 class="task" id="úloha-20">Úloha</h4>
+            <p>Vytvorte prichádzajúci hovor z čísla <em>112</em>.</p>
+            <p>Ak ste postupovali správne, emulátor začne “zvoniť”.</p>
+            <figure>
+                <img src="../2017/images/emulator-incomming.call.png" alt="" /><figcaption>Prichádzajúci hovor z čísla 112.</figcaption>
+            </figure>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="ex">gsm</span> call 112</span></code></pre></div>
+            </section>
+            <h4 id="úloha-21">Úloha</h4>
+            <p>Odstráňte vytvorené AVD.</p>
+            <section class="alert-heading alert alert-warning theme-alert-lecturer">
+                <h4 class="alert-heading"><span class="fas fa-paperclip" aria-hidden="true"></span> Poznámky pre učiteľa</h4>
+                <div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="ex">avdmanager</span> delete avd -n nexus</span></code></pre></div>
+            </section>
+            <h2 id="additional-tasks">Additional Tasks</h2>
+            <ol type="1">
+                <li><p>Zoznámte sa s možnosťami ovládania stavu batérie emulátora - či už z prostredia <em>Extended controls</em> alebo z prostredia konzoly emulátora.</p></li>
+                <li><p>Zoznámte sa s možnosťami ovládania stavu a sily sieťového pripojenia - či už z prostredia <em>Extended controls</em> alebo z prostredia konzoly emulátora.</p></li>
+            </ol>
+            <h2 id="additional-links">Additional Links</h2>
+            <ul>
+                <li><p><a href="http://developer.android.com/tools/help/index.html">Tools Help</a> - prehľad nástrojov dostupných v balíku <em>Android SDK</em></p></li>
+                <li><p><a href="http://developer.android.com/tools/help/adb.html">Android Debug Bridge (adb)</a></p></li>
+                <li><p><a href="https://www.genymotion.com/">Genymotion</a> - alternatívny emulátor pre emulovanie <em>Android</em> zariadení</p></li>
+                <li><p>Command Line Tools: <a href="https://developer.android.com/studio/command-line/avdmanager">avdmanager</a> - The <code>avdmanager</code> is a command line tool that allows you to create and manage <em>Android Virtual Devices</em> (AVDs) from the command line.</p></li>
+                <li><p>Command Line Tools: <a href="https://developer.android.com/studio/command-line/sdkmanager">sdkmanager</a> - The <code>sdkmanager</code> is a command line tool that allows you to view, install, update, and uninstall packages for the Android SDK.</p></li>
+                <li><p><a href="https://developer.android.com/studio/run/emulator-commandline">Start the emulator from the command line</a> - dokument opisuje možnosti príkazového riadku a zoznam klávesových skratiek pre emulátor</p></li>
+            </ul>
+
+        </div>
+
+        <script src="/smart/assets/js/labs.js"></script>
+
+
+    </div>
+</main>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 h-100 align-self-center">
+                <span class="footer-title">SMART</span>
+                <p><p>Kurz venovaný vývoju aplikácií pre chytré zariadenia pomocou softvérového rámca <a href="https://reactnative.dev">React Native</a> primárne pre platformu <a href="https://www.android.com">Android</a>.</p>
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="license-icons">
+                    <img src="/smart/assets/img/cc.svg" alt="creative commons">
+                    <img src="/smart/assets/img/by.svg" alt="by">
+                    <img src="/smart/assets/img/nc-eu.svg" alt="nc">
+                    <img src="/smart/assets/img/sa.svg" alt="sa">
+                </div>
+
+                <p>
+                    Except, where otherwise noted, content on this site is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="footer-copyright">
+        <p>(c) 2017 - 2020 <a href="https://kpi.fei.tuke.sk/">Katedra počítačov a informatiky</a>,
+            <a href="http://www.tuke.sk/">Technická univerzita v Košiciach</a></p>
+    </div>
+</footer>
+
+
+<!-- Optional JavaScript -->
+<!-- Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+<!-- syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<!-- <script src="js/theme.js"></script> -->
+
+<script>
+    $(document).ready(function(){
+        $('table').addClass('table').addClass('table-striped');
+        $('img').addClass('img-fluid');
+    });
+</script>
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128681191-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-128681191-1');
+</script>
+
+
+
+</body>
+</html>
