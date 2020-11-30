@@ -43,6 +43,7 @@ function createTextField(fromTop) {
     textDiv.appendChild(continueButton);
     document.body.appendChild(textDiv);
 }
+
 //vytvori znacku obsahujucu neviditelny znak Byte order mark(ufeff)
 let markSelection = (function() {
     let markerTextChar = "\ufeff";
