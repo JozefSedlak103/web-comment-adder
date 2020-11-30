@@ -1,9 +1,8 @@
+//ziska vybraty text
 function getSelectedText() {
     let selectedText = '';
     // preto je tu viacero moznosti, lebo je mozne ze niektore z toho nemusia fungovat na niektorych strankach
     // window.getSelection
-    //var activeEl = document.activeElement;
-    //var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
     if (window.getSelection) {
         selectedText = window.getSelection().toString();
     }
@@ -16,19 +15,36 @@ function getSelectedText() {
         selectedText =
             document.selection.createRange().text.toString();
     } else return '';
-    // Toto zmenit na vytvorenie toho maleho pluska, je to len pre otestovanie funkcionality
-    //document.testform.selectedtext.value = selectedText;
     return selectedText;
 }
 
-function createTextField() {
+function createTextField(fromTop) {
     let textDiv = document.createElement("div");
+    let cancelButton = document.createElement("button");
+    let inputTextField = document.createElement("INPUT");
+    inputTextField.setAttribute("type", "text");
     textDiv.style.width = "10%";
-    textDiv.style.right = "12%";
-    textDiv.style.height = "40px";
+    textDiv.style.right = "10%";
+    textDiv.style.border = "solid black 1px";
+    textDiv.style.height = "60px";
     textDiv.style.position = "absolute";
     textDiv.style.backgroundColor = "yellow";
-    textDiv.style.top = getFromTop() + "px";
+    textDiv.style.top = fromTop + "px";
+    cancelButton.style.left = "30px";
+    cancelButton.style.top = "50px";
+    cancelButton.innerHTML = "Zruš";
+    cancelButton.onclick = function() {
+        textDiv.removeChild(cancelButton);
+        textDiv.removeChild(inputTextField);
+        textDiv.parentElement.removeChild(textDiv);
+    }
+    textDiv.appendChild(inputTextField);
+    textDiv.appendChild(cancelButton);
+    document.body.appendChild(textDiv);
+
+    //document.onselectionchange = function () {
+    //    textDiv.parentNode.removeChild(textDiv);
+    //}
 }
 
 var markSelection = (function() {
@@ -75,7 +91,7 @@ var markSelection = (function() {
                 selectionEl.style.fontSize = "120%";
                 selectionEl.style.right = "100px";
                 selectionEl.style.position = "absolute";
-                selectionEl.onclick = function() {alert("clicked");};
+                selectionEl.onclick = function() {createTextField(top)};
 
                 doc.body.appendChild(selectionEl);
             }
@@ -84,7 +100,7 @@ var markSelection = (function() {
             let top = 0;
             do {
                 top += obj.offsetTop;
-            } while (obj == obj.offsetParent);
+            } while (obj === obj.offsetParent);
             selectionEl.style.right = "8%";
             selectionEl.style.top = top + "px";
 
@@ -93,37 +109,7 @@ var markSelection = (function() {
     };
 })();
 
-/*
 
-function getFromTop() {
-    var markerTextChar = "\ufeff";
-    var markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
-
-    let win = window;
-    let sel, range;
-    if (win.getSelection) {
-        sel = win.getSelection();
-        range = sel.getRangeAt(0).cloneRange();
-        range.collapse(false);
-
-        // Create the marker element containing a single invisible character using DOM methods and insert it
-        markerEl = doc.createElement("span");
-        markerEl.id = markerId;
-        markerEl.appendChild(doc.createTextNode(markerTextChar));
-        range.insertNode(markerEl);
-    }
-    if (markerEl) {
-        let obj = markerEl;
-        let top = 0;
-        do {
-            top += obj.offsetTop;
-        } while (obj == obj.offsetParent);
-        markerEl.parentNode.removeChild(markerEl);
-        return top;
-    }
-}
-
-*/
 //pri zmene vybrateho textu vezme text a vytvori tlacidlo
 document.onselectionchange = () => {
     let text = getSelectedText();
