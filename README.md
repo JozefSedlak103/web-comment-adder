@@ -2,7 +2,7 @@
 
 # Pridávanie komentárov k textom na stránkach predmetov
 
-Vývojári: Anka Molnárová, Patrik Bodnár, Patrik Zajac, Samuel Cabadaj, Peter Vinca, Sebastián Dimun, Jozef Sedlák
+Vývojári: Anna Molnárová, Patrik Bodnár, Patrik Zajac, Samuel Cabadaj, Peter Vinca, Sebastián Dimun, Jozef Sedlák
 
 ##### Použité prostredie: WebStorm od Jetbrains: https://www.jetbrains.com/webstorm/
 
