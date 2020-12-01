@@ -8,9 +8,9 @@
 //import * as firebase from "firebase/app";
 //import 'firebase/firestore';
 
-
+let url = window.location.href;
 let selectedString = '';
-let inputString = '';
+let prevString = '';
 //const firebase = window.firebase;
     //require("firebase/firestore");
 //const firebase = require("firebase/app");
@@ -53,11 +53,11 @@ function getSelectedText() {
     return selectedText;
 }
 /*
-function addCorrection() {
+function addCorrection(inputText) {
     if (selectedString!=='' && inputString!== '') {
         db.collection("selected").add({
-            selected: selectedString,
-            changeTo: inputString
+            selected: prevString,
+            changeTo: inputText
         })
         .then(function(docRef) {
             console.log("Document written with ID: ", docRef.id);
@@ -72,9 +72,9 @@ function addCorrection() {
 }
 
  */
-
+//zatial nahrade pre zapis do databazy
 function addCorrection(inputText) {
-    alert('added input string: ' + inputText);
+    alert('change: "' + prevString + '" to: "' + inputText + '"');
 }
 
 
@@ -92,7 +92,9 @@ function createTextField(fromTop) {
     textDiv.style.position = "absolute";
     textDiv.style.backgroundColor = "yellow";
     textDiv.style.top = fromTop + "px";
-
+   // if (selectedString!== '') {
+    //    var selectedT = selectedString;
+   // }
     continueButton.innerHTML = "Pokračuj";
     continueButton.onclick = function() {
         let inputText = inputTextField.value;
@@ -160,8 +162,9 @@ let markSelection = (function() {
 
 //pri zmene vybrateho textu vezme text a vytvori tlacidlo
 document.onselectionchange = () => {
-    let selectedText = getSelectedText();
-    if (selectedText!=='') {
+    selectedString = getSelectedText();
+    if (selectedString!=='') {
+        prevString = selectedString;
         markSelection(window);
     }
 };

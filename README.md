@@ -1,4 +1,4 @@
-### hackathon-2020
+### BlueDeath
 
 # Pridávanie komentárov k textom na stránkach predmetov
 
