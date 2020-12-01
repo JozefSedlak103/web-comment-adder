@@ -1,0 +1,7 @@
+{
+  "name": "hackathon",
+  "version": "1.0.0",
+  "dependencies": {
+    "firebase": "^8.1.1"
+  }
+}
