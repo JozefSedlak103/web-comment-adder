@@ -4,7 +4,7 @@
 
 Vývojári: Anka Molnárová, Patrik Bodnár, Patrik Zajac, Samuel Cabadaj, Peter Vinca, Sebastián Dimun, Jozef Sedlák
 
-##### Použité prostredie: WebStorm od https://www.jetbrains.com/webstorm/
+##### Použité prostredie: WebStorm od Jetbrains: https://www.jetbrains.com/webstorm/
 
 ######  Link na projekt v devpost: https://devpost.com/software/bluedeath
 
