@@ -1,40 +1,6 @@
-//The core Firebase JS SDK is always required and must be listed first
-//include('https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js');
-//TODO: Add SDKs for Firebase products that you want to use
-//https://firebase.google.com/docs/web/setup#available-libraries
-//include('https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js');
-//include('https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js');
-
-//import * as firebase from "firebase/app";
-//import 'firebase/firestore';
-
 let url = window.location.href;
 let selectedString = '';
 let prevString = '';
-//const firebase = window.firebase;
-    //require("firebase/firestore");
-//const firebase = require("firebase/app");
-// Required for side-effects
-
-/*
-let firebaseConfig = {
-    apiKey: "AIzaSyA8S_DJAlXAZfvKDvm5g1fC53lvxJ1Rq1Y",
-    authDomain: "hackathon-2020-1a7e6.firebaseapp.com",
-    databaseURL: "https://hackathon-2020-1a7e6.firebaseio.com",
-    projectId: "hackathon-2020-1a7e6",
-    storageBucket: "hackathon-2020-1a7e6.appspot.com",
-    messagingSenderId: "619297380907",
-    appId: "1:619297380907:web:f80b8b6e8bd2b9722c286e",
-    measurementId: "G-FY877D66KG"
-};
-// Initialize Firebase
-//firebase.initializeApp(firebaseConfig);
-
-let db = firebase.firestore();
-//firebase.analytics();
-
-
- */
 
 //ziska vybraty text
 function getSelectedText() {
@@ -52,26 +18,7 @@ function getSelectedText() {
     } else return '';
     return selectedText;
 }
-/*
-function addCorrection(inputText) {
-    if (selectedString!=='' && inputString!== '') {
-        db.collection("selected").add({
-            selected: prevString,
-            changeTo: inputText
-        })
-        .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
-    }
-    else {
-        alert('There is no selected text or input field is empty.');
-    }
-}
 
- */
 //zatial nahrade pre zapis do databazy
 function addCorrection(inputText) {
     alert('change: "' + prevString + '" to: "' + inputText + '"');
