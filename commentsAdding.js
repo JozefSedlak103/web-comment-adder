@@ -137,12 +137,15 @@ let markSelection = (function() {
         if (markerEl) {
             if (!selectionEl) {
                 selectionEl = doc.createElement("button");
-                selectionEl.style.border = "solid black 1px";
-                selectionEl.style.borderRadius = "4px";
+                selectionEl.style.border = "white 1px";
+                //selectionEl.style.borderRadius = "4px";
                 selectionEl.style.justifyContent = "center";
                 selectionEl.style.alignContent = "center";
-                selectionEl.style.backgroundColor = "white";
-                selectionEl.innerHTML = "+";
+                //selectionEl.style.backgroundColor = "white";
+                selectionEl.style.background = "rgba(0,0,0,0)";
+                selectionEl.style.outline = "none";
+                //https://cdn2.iconfinder.com/data/icons/everything-but-the-kitchen-sink-2/100/common-06-512.png
+                selectionEl.innerHTML = "<img src='https://cdn2.iconfinder.com/data/icons/everything-but-the-kitchen-sink-2/100/common-06-512.png' width=\"35px\" height=\"35px\">";
                 selectionEl.style.fontSize = "120%";
                 selectionEl.style.position = "absolute";
                 doc.body.appendChild(selectionEl);
@@ -153,7 +156,7 @@ let markSelection = (function() {
             do {
                 top += obj.offsetTop;
             } while (obj === obj.offsetParent);
-            selectionEl.style.right = "8%";
+            selectionEl.style.right = "8vw";
             selectionEl.style.top = top + "px";
             selectionEl.onclick = function() {createTextField(top)};
         }
