@@ -2,6 +2,7 @@ let url = window.location.href;
 let selectedString = '';
 let prevString = '';
 
+//inicializacia back4app databazy
 function back4appUrl(){
     return "https://parseapi.back4app.com/classes/comments";
 }
@@ -32,7 +33,7 @@ function getSelectedText() {
     return selectedText;
 }
 
-//zatial nahrada pre zapis do databazy
+//zapis do databazy
 function addCorrection(inputText) {
     const newComment = {
         selected : prevString,
@@ -48,7 +49,7 @@ function addCorrection(inputText) {
         headers: reqHeaders,
         method: 'POST',
         body: JSON.stringify(newComment)
-    }
+    };
 
     fetch(back4appUrl(),init)
         .then(response =>{      //fetch promise fullfilled (operation completed successfully)
@@ -73,25 +74,34 @@ function createTextField(fromTop) {
     let textDiv = document.createElement("div");
     let cancelButton = document.createElement("button");
     let continueButton = document.createElement("button");
-    let inputTextField = document.createElement("INPUT");
-    inputTextField.setAttribute("type", "text");
+    let inputTextField = document.createElement("textarea");
+    //inputTextField.setAttribute("type", "text");
     inputTextField.value = "";
-    textDiv.style.width = "10%";
+    inputTextField.rows = 3;
+    inputTextField.style.width = "100%";
+    inputTextField.placeholder = "Váš komentár";
+    textDiv.style.width = "15%";
     textDiv.style.right = "10%";
     textDiv.style.border = "solid black 1px";
-    textDiv.style.height = "60px";
+    textDiv.style.height = "120px";
+    textDiv.style.backgroundColor = "white";
+    textDiv.style.borderRadius = "5px";
     textDiv.style.position = "absolute";
-    textDiv.style.backgroundColor = "yellow";
+    //textDiv.style.backgroundColor = "yellow";
     textDiv.style.top = fromTop + "px";
-   // if (selectedString!== '') {
-    //    var selectedT = selectedString;
-   // }
     continueButton.innerHTML = "Pokračuj";
+    continueButton.style.border = "solid black 1px";
+    continueButton.style.borderRadius="5px";
+    continueButton.style.backgroundColor="lightgreen";
     continueButton.onclick = function() {
         let inputText = inputTextField.value;
         addCorrection(inputText);
     };
     cancelButton.innerHTML = "Zruš";
+    cancelButton.style.marginRight = "5px";
+    cancelButton.style.borderRadius="5px";
+    cancelButton.style.border = "solid black 1px";
+    cancelButton.style.backgroundColor="lightcoral";
     cancelButton.onclick = function() {
         textDiv.removeChild(cancelButton);
         textDiv.removeChild(inputTextField);
