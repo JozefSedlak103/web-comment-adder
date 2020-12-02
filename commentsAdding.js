@@ -72,54 +72,57 @@ function addCorrection(inputText, name) {
 
 
 function createTextField(fromTop) {
-    let textDiv = document.createElement("div");
-    let cancelButton = document.createElement("button");
-    let continueButton = document.createElement("button");
-    let inputTextField = document.createElement("textarea");
-    let nameInput = document.createElement("textarea");
-    nameInput.value = "";
-    nameInput.rows = 1;
-    nameInput.style.width = "100%";
-    nameInput.placeholder = "Meno Priezvisko";
-    //inputTextField.setAttribute("type", "text");
-    inputTextField.value = "";
-    inputTextField.rows = 3;
-    inputTextField.style.width = "100%";
-    inputTextField.placeholder = "Váš komentár";
-    textDiv.style.width = "15%";
-    textDiv.style.right = "10%";
-    textDiv.style.border = "solid black 1px";
-    textDiv.style.height = "150px";
-    textDiv.style.backgroundColor = "white";
-    textDiv.style.borderRadius = "5px";
-    textDiv.style.position = "absolute";
-    //textDiv.style.backgroundColor = "yellow";
-    textDiv.style.top = fromTop + "px";
-    continueButton.innerHTML = "Pokračuj";
-    continueButton.style.border = "solid black 1px";
-    continueButton.style.borderRadius="5px";
-    continueButton.style.backgroundColor="lightgreen";
-    continueButton.onclick = function() {
-        let inputText = inputTextField.value;
-        let nameText = nameInput.value;
-        addCorrection(inputText, nameText);
-    };
-    cancelButton.innerHTML = "Zruš";
-    cancelButton.style.marginRight = "5px";
-    cancelButton.style.borderRadius="5px";
-    cancelButton.style.border = "solid black 1px";
-    cancelButton.style.backgroundColor="lightcoral";
-    cancelButton.onclick = function() {
-        textDiv.removeChild(nameInput);
-        textDiv.removeChild(cancelButton);
-        textDiv.removeChild(inputTextField);
-        textDiv.parentElement.removeChild(textDiv);
-    };
-    textDiv.appendChild(nameInput);
-    textDiv.appendChild(inputTextField);
-    textDiv.appendChild(cancelButton);
-    textDiv.appendChild(continueButton);
-    document.body.appendChild(textDiv);
+    if(document.getElementById("hackaton")==null) {
+        let textDiv = document.createElement("div");
+        let cancelButton = document.createElement("button");
+        let continueButton = document.createElement("button");
+        let inputTextField = document.createElement("textarea");
+        let nameInput = document.createElement("textarea");
+        textDiv.id = "hackaton"
+        nameInput.value = "";
+        nameInput.rows = 1;
+        nameInput.style.width = "100%";
+        nameInput.placeholder = "Meno Priezvisko";
+        //inputTextField.setAttribute("type", "text");
+        inputTextField.value = "";
+        inputTextField.rows = 3;
+        inputTextField.style.width = "100%";
+        inputTextField.placeholder = "Váš komentár";
+        textDiv.style.width = "15%";
+        textDiv.style.right = "10%";
+        textDiv.style.border = "solid black 1px";
+        textDiv.style.height = "150px";
+        textDiv.style.backgroundColor = "white";
+        textDiv.style.borderRadius = "5px";
+        textDiv.style.position = "absolute";
+        //textDiv.style.backgroundColor = "yellow";
+        textDiv.style.top = fromTop + "px";
+        continueButton.innerHTML = "Pokračuj";
+        continueButton.style.border = "solid black 1px";
+        continueButton.style.borderRadius = "5px";
+        continueButton.style.backgroundColor = "lightgreen";
+        continueButton.onclick = function () {
+            let inputText = inputTextField.value;
+            let nameText = nameInput.value;
+            addCorrection(inputText, nameText);
+        };
+        cancelButton.innerHTML = "Zruš";
+        cancelButton.style.marginRight = "5px";
+        cancelButton.style.borderRadius = "5px";
+        cancelButton.style.border = "solid black 1px";
+        cancelButton.style.backgroundColor = "lightcoral";
+        cancelButton.onclick = function () {
+            textDiv.removeChild(nameInput);
+            textDiv.removeChild(cancelButton);
+            textDiv.removeChild(inputTextField);
+            textDiv.parentElement.removeChild(textDiv);
+        };
+        textDiv.appendChild(nameInput);
+        textDiv.appendChild(inputTextField);
+        textDiv.appendChild(cancelButton);
+        textDiv.appendChild(continueButton);
+        document.body.appendChild(textDiv);
+    }
 }
 
 //vytvori znacku obsahujucu neviditelny znak Byte order mark(ufeff)
