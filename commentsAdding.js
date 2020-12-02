@@ -34,11 +34,12 @@ function getSelectedText() {
 }
 
 //zapis do databazy
-function addCorrection(inputText) {
+function addCorrection(inputText, name) {
     const newComment = {
         selected : prevString,
         inputText : inputText,
         URL : url,
+        name: name,
         //tu este mozne pridat dalsie stlpce
     };
     //alert('change: "' + prevString + '" to: "' + inputText + '"');
@@ -75,6 +76,11 @@ function createTextField(fromTop) {
     let cancelButton = document.createElement("button");
     let continueButton = document.createElement("button");
     let inputTextField = document.createElement("textarea");
+    let nameInput = document.createElement("textarea");
+    nameInput.value = "";
+    nameInput.rows = 1;
+    nameInput.style.width = "100%";
+    nameInput.placeholder = "Meno Priezvisko";
     //inputTextField.setAttribute("type", "text");
     inputTextField.value = "";
     inputTextField.rows = 3;
@@ -83,7 +89,7 @@ function createTextField(fromTop) {
     textDiv.style.width = "15%";
     textDiv.style.right = "10%";
     textDiv.style.border = "solid black 1px";
-    textDiv.style.height = "120px";
+    textDiv.style.height = "150px";
     textDiv.style.backgroundColor = "white";
     textDiv.style.borderRadius = "5px";
     textDiv.style.position = "absolute";
@@ -95,7 +101,8 @@ function createTextField(fromTop) {
     continueButton.style.backgroundColor="lightgreen";
     continueButton.onclick = function() {
         let inputText = inputTextField.value;
-        addCorrection(inputText);
+        let nameText = nameInput.value;
+        addCorrection(inputText, nameText);
     };
     cancelButton.innerHTML = "Zruš";
     cancelButton.style.marginRight = "5px";
@@ -103,10 +110,12 @@ function createTextField(fromTop) {
     cancelButton.style.border = "solid black 1px";
     cancelButton.style.backgroundColor="lightcoral";
     cancelButton.onclick = function() {
+        textDiv.removeChild(nameInput);
         textDiv.removeChild(cancelButton);
         textDiv.removeChild(inputTextField);
         textDiv.parentElement.removeChild(textDiv);
     };
+    textDiv.appendChild(nameInput);
     textDiv.appendChild(inputTextField);
     textDiv.appendChild(cancelButton);
     textDiv.appendChild(continueButton);
