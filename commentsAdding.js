@@ -61,12 +61,10 @@ function addCorrection(inputText, name) {
             }
         })
         .then(responseJSON => { //here we process the returned response data in JSON ...
-            console.log(`Opinion added at ${responseJSON.createdAt} with id=${responseJSON.objectId}. `);
-            window.alert('Your opinion has been saved');
-            window.location.hash="#opinions";
+            window.alert('Komentár úspešne uložený');
         })
         .catch (error => { ////here we process all the failed promises
-            window.alert(`Failed to save your opinion: ${error}`);
+            window.alert(`Nastala chyba: ${error}`);
         });
 }
 
@@ -160,6 +158,8 @@ let markSelection = (function() {
                 selectionEl.innerHTML = "<img src='https://cdn2.iconfinder.com/data/icons/everything-but-the-kitchen-sink-2/100/common-06-512.png' width=\"35px\" height=\"35px\">";
                 selectionEl.style.fontSize = "120%";
                 selectionEl.style.position = "absolute";
+                selectionEl.style.margin = 0;
+                selectionEl.style.padding = 0;
                 doc.body.appendChild(selectionEl);
             }
 
