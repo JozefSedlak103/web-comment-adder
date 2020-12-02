@@ -2,6 +2,19 @@ let url = window.location.href;
 let selectedString = '';
 let prevString = '';
 
+function back4appUrl(){
+    return "https://parseapi.back4app.com/classes/comments";
+}
+
+function back4appHeaders(){
+    return {
+        "X-Parse-Application-Id": "HpKsmV9VmYdOuDSVG0ANqbeTFafmEavoZnNphu3f",
+        "X-Parse-REST-API-Key": "VNMEisJ4ePSx8V1126oVqvHe1rS9Kq1aqfAAivY6"
+    };
+}
+
+
+
 //ziska vybraty text
 function getSelectedText() {
     let selectedText = '';
@@ -19,9 +32,40 @@ function getSelectedText() {
     return selectedText;
 }
 
-//zatial nahrade pre zapis do databazy
+//zatial nahrada pre zapis do databazy
 function addCorrection(inputText) {
-    alert('change: "' + prevString + '" to: "' + inputText + '"');
+    const newComment = {
+        selected : prevString,
+        inputText : inputText,
+        URL : url,
+        //tu este mozne pridat dalsie stlpce
+    };
+    //alert('change: "' + prevString + '" to: "' + inputText + '"');
+    const reqHeaders=back4appHeaders();
+    reqHeaders["Content-Type"]="application/json";
+
+    const init={
+        headers: reqHeaders,
+        method: 'POST',
+        body: JSON.stringify(newComment)
+    }
+
+    fetch(back4appUrl(),init)
+        .then(response =>{      //fetch promise fullfilled (operation completed successfully)
+            if(response.ok){    //successful execution includes an error response from the server. So we have to check the return status of the response here.
+                return response.json(); //we return a new promise with  the response data in JSON to be processed
+            }else{ //if we get server error
+                return Promise.reject(new Error(`Server answered with ${response.status}: ${response.statusText}.`)); //we return a rejected promise to be catched later
+            }
+        })
+        .then(responseJSON => { //here we process the returned response data in JSON ...
+            console.log(`Opinion added at ${responseJSON.createdAt} with id=${responseJSON.objectId}. `);
+            window.alert('Your opinion has been saved');
+            window.location.hash="#opinions";
+        })
+        .catch (error => { ////here we process all the failed promises
+            window.alert(`Failed to save your opinion: ${error}`);
+        });
 }
 
 
