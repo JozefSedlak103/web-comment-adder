@@ -1,6 +1,8 @@
 let url = window.location.href;
 let selectedString = '';
 let prevString = '';
+let browserZoomLevel;
+let selectionEl;
 
 //inicializacia back4app databazy
 function back4appUrl(){
@@ -128,7 +130,6 @@ let markSelection = (function() {
     let markerTextChar = "\ufeff";
 
     let markerEl, markerId = "sel_" + new Date().getTime() + "_" + Math.random().toString().substr(2);
-    let selectionEl;
 
     return function(win) {
         let doc = win.document;
@@ -168,7 +169,9 @@ let markSelection = (function() {
             do {
                 top += obj.offsetTop;
             } while (obj === obj.offsetParent);
-            selectionEl.style.right = "8vw";
+	//vypocet right marginu na zaklade zoomu prehliadaca
+			browserZoomLevel = window.devicePixelRatio * 100 * 1.08 - 8;
+            selectionEl.style.right = (32/browserZoomLevel*25) + "vw";
             selectionEl.style.top = top + "px";
             selectionEl.onclick = function() {createTextField(top)};
         }
@@ -184,4 +187,10 @@ document.onselectionchange = () => {
         markSelection(window);
     }
 };
+
+//pri zmene zoomu sa presunie tlacidlo na pridanie komentara
+$(window).resize(function() { 
+	browserZoomLevel = window.devicePixelRatio * 100 * 1.08 - 8;
+	selectionEl.style.right = (32/browserZoomLevel*25) + "vw";	
+});
 
